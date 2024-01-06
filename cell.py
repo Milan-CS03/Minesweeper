@@ -1,5 +1,4 @@
 from tkinter import Button, Label
-import utils
 import random
 import settings
 import ctypes
@@ -8,8 +7,8 @@ from time import sleep
 
 
 class Cells:
-    all = []    # to store all cell
-    cell_count_label = None   # A display label to show remaining cells
+    all = []  # to store all cell
+    cell_count_label = None  # A display label to show remaining cells
     cell_count = settings.CELL_COUNT  # total cell counts
 
     def __init__(self, x, y, is_mine=False):
@@ -42,7 +41,7 @@ class Cells:
         if self.is_mine:
             self.show_mine()
         else:
-            if self.surrounded_cells_mines_length == 0:   # Opening all if surrounded mines are 0
+            if self.surrounded_cells_mines_length == 0:  # Opening all if surrounded mines are 0
                 for cell_obs in self.surrounded_cells:
                     cell_obs.show_cell()
             self.show_cell()
@@ -57,11 +56,10 @@ class Cells:
         """ If cell is mine game over !"""
         self.cell_btn_object.configure(bg='red')
         ctypes.windll.user32.MessageBoxW(0, "you clicked on mine", "Game Over", 0)
-        #sleep(3)
+        # sleep(3)
         self.cell_btn_object.configure(bg='red')
         sleep(2)
         sys.exit()
-
 
     def get_cell_by_axis(self, x, y):
         """get the cell by raw & col position"""
@@ -98,6 +96,7 @@ class Cells:
             if self.is_mine_candidate:
                 self.cell_btn_object.configure(bg="SystemButtonFace")
             self.is_open = True
+
     def right_click_actions(self, event):
         if not self.is_mine_candidate:
             self.cell_btn_object.configure(bg="orange")
