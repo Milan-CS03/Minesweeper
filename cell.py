@@ -27,14 +27,8 @@ class Cells:
         btn.bind('<Button-1>', self.left_click_actions)
         btn.bind('<Button-3>', self.right_click_actions)
         self.cell_btn_object = btn
-
-    @staticmethod
-    def create_cell_count_label(location):
-        """Creating cell count label and showing number of remaining cells to win"""
-        label = Label(location, text=f"Cells Left:{Cells.cell_count}", width=12, height=4,
-                      bg='Black', fg='yellow',
-                      font=("", 30))
-        Cells.cell_count_label = label
+    def __repr__(self):
+        return f"Cells({self.x}, {self.y})"
 
     def left_click_actions(self, event):
         """Defining actions to happen with left click"""
@@ -61,7 +55,8 @@ class Cells:
         sleep(2)
         sys.exit()
 
-    def get_cell_by_axis(self, x, y):
+    @staticmethod
+    def get_cell_by_axis(x, y):
         """get the cell by raw & col position"""
         for cell in Cells.all:
             if cell.x == x and cell.y == y:
@@ -73,7 +68,7 @@ class Cells:
         xs = [-1, -1, -1, 0, 0, 1, 1, 1]
         ys = [-1, 0, 1, -1, 1, -1, 0, 1]
 
-        cells = [self.get_cell_by_axis(self.x + xs[i], self.y + ys[i]) for i in range(len(xs))]
+        cells = [Cells.get_cell_by_axis(self.x + xs[i], self.y + ys[i]) for i in range(len(xs))]
         cells = [cell for cell in cells if cell is not None]
         return cells
 
@@ -105,12 +100,18 @@ class Cells:
             self.cell_btn_object.configure(bg="SystemButtonFace")
             self.is_mine_candidate = False
 
-    def __repr__(self):
-        return f"Cells({self.x}, {self.y})"
-
     @staticmethod
     def randomize_mines():
         """ from all cells, create random mines"""
         picked_cells = random.sample(Cells.all, settings.MINES_COUNTER)
         for cell in picked_cells:
             cell.is_mine = True
+
+    @staticmethod
+    def create_cell_count_label(location):
+        """Creating cell count label and showing number of remaining cells to win"""
+        label = Label(location, text=f"Cells Left:{Cells.cell_count}", width=12, height=4,
+                      bg='Black', fg='yellow',
+                      font=("", 30))
+        Cells.cell_count_label = label
+
